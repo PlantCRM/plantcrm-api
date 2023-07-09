@@ -43,6 +43,16 @@ services:
         published: 3306
         mode: host
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2.1
+    networks:
+      - web-dev
+    restart: always
+    environment:
+      PMA_HOST: mariadb
+    ports:
+      - "8090:80"
+
   php:
     image: serversideup/php:8.1-fpm-nginx
     working_dir: /var/www/html
