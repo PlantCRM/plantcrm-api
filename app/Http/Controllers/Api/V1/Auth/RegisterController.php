@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
@@ -14,17 +15,11 @@ use Illuminate\Validation\Rules\Password;
 class RegisterController extends Controller
 {
     /**
-     * @param Request $request
+     * @param RegisterRequest $request
      * @return JsonResponse
      */
-    public function __invoke(Request $request): \Illuminate\Http\JsonResponse
+    public function __invoke(RegisterRequest $request): \Illuminate\Http\JsonResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Password::defaults()],
-        ]);
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
