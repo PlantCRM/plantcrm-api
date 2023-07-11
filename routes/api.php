@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Auth;
+use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\Api\V1\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,11 +15,16 @@ use \App\Http\Controllers\Api\V1\Auth;
 |
 */
 
+
 Route::post('auth/register', Auth\RegisterController::class);
 Route::post('auth/login', Auth\LoginController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('profile', [Auth\ProfileController::class, 'user.show']);
-    Route::put('profile', [Auth\ProfileController::class, 'user.update']);
-    Route::put('password', [Auth\PasswordUpdateController::class, 'user.update.password']);
+    Route::post('logout', Auth\LogoutController::class);
+
+    Route::get('users', [UserController::class, 'index']);
+    Route::post('users/create', [UserController::class, 'create']);
+    Route::get('users/{name}', [UserController::class, 'show']);
+    Route::put('users/{name}', [UserController::class, 'update']);
+    Route::delete('users/{name}', [UserController::class, 'delete']);
 });
